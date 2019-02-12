@@ -20,6 +20,8 @@
             <th>время</th>
             <th>описание</th>
             <th>калории</th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -31,9 +33,12 @@
             <td><%=LocalDateTimeUtil.localTimeToString(mealTo.getDateTime())%></td>
             <td>${mealTo.getDescription()}</td>
             <td>${mealTo.getCalories()}</td>
+            <td><a href="${pageContext.request.contextPath}/meals?editmeal=${mealTo.id}">редактировать</a> </td>
+            <td><a href="${pageContext.request.contextPath}/meals?delmeal=${mealTo.id}">удалить</a> </td>
         </tr>
     </c:forEach>
     </tbody>
 </table>
+<p><a href="${pageContext.request.contextPath}/meals?editmeal=new">добаивить</a></p>
 </body>
 </html>
