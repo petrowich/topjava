@@ -8,7 +8,9 @@ import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.web.meal.MealRestController;
 import ru.javawebinar.topjava.web.user.AdminRestController;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.Arrays;
 
 public class SpringMain {
@@ -54,7 +56,9 @@ public class SpringMain {
 
             mealRestController.update(new Meal(3, 1, LocalDateTime.now(), "Ужии1111111иин", 666), 3);
 
-            mealRestController.getAll().stream().forEach(System.out::println);
+            LocalDate startDate = LocalDate.of(2015, Month.MAY, 31); //всё с 31.05.2015
+            LocalDate endDate = null;
+            mealRestController.getAll(startDate, endDate).stream().forEach(System.out::println);
         }
     }
 }

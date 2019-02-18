@@ -7,6 +7,19 @@
 <head>
     <title>Meal list</title>
     <style>
+        .submit-block {
+            margin: 5px;
+        }
+        .datetime-block {
+            display: inline-block;
+            margin: 5px;
+        }
+        .date-block {
+            display: inline-block;
+        }
+        .time-block {
+            display: inline-block;
+        }
         .normal {
             color: green;
         }
@@ -20,6 +33,51 @@
 <section>
     <h3><a href="index.html">Home</a></h3>
     <h2>Meals</h2>
+    <hr/>
+    <form action="meals" method="get">
+        <div class="submit-block">
+            <label for="userId">Login</label>
+            <select id="userId" name="userId"> --комбобокс
+                <option value="1">user 1</option>
+                <option value="2">user 2</option>
+            </select>
+        </div>
+        <div class="datetime-block">
+            <fieldset>
+                <div class="date-block">
+                    <div>
+                        <label for="startDate">date from</label>
+                    </div>
+                    <input type="date" id="startDate" name="startDate">
+                </div>
+                <div class="date-block">
+                    <div>
+                        <label for="endDate">date to</label>
+                    </div>
+                    <input type="date" id="endDate" name="endDate">
+                </div>
+            </fieldset>
+        </div>
+        <div class="datetime-block">
+            <fieldset>
+                <div class="time-block">
+                    <div>
+                        <label for="startTime">time from</label>
+                    </div>
+                    <input type="time" id="startTime" name="startTime">
+                </div>
+                <div class="time-block">
+                    <div>
+                        <label for="endTime">until</label>
+                    </div>
+                    <input type="time" id="endTime" name="endTime">
+                </div>
+            </fieldset>
+        </div>
+        <div class="submit-block">
+            <input type="submit" value="apply">
+        </div>
+    </form>
     <a href="meals?action=create">Add Meal</a>
     <hr/>
     <table border="1" cellpadding="8" cellspacing="0">

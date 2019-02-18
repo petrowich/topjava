@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static ru.javawebinar.topjava.util.ValidationUtil.assureIdConsistent;
@@ -22,6 +23,11 @@ public class MealRestController {
     public List<Meal> getAll() {
         log.info("getAll");
         return service.getAll();
+    }
+
+    public List<Meal> getAll(LocalDate startDate, LocalDate endDate) {
+        log.info("getAll");
+        return service.getAll(startDate, endDate);
     }
 
     public Meal get(int id) {
