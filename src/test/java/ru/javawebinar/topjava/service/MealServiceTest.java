@@ -35,6 +35,22 @@ public class MealServiceTest {
     private MealService service;
 
     @Test
+    public void create() throws Exception {
+        List<Meal> expected = service.getAll(USER_ID); //too lazy for write all of USER_MEAL_ID_01 .. here, so let's put all of them in the list
+        Meal newMeal = new Meal(null, LocalDateTime.of(2015, Month.MAY, 29, 10, 0), "Обед", 1000); //make meal date earlier then others to be in the end of list returned by service.getAll
+        service.create(newMeal, USER_ID);
+        newMeal.setId(newMeal.getId());
+        expected.add(newMeal);
+        assertMatch(service.getAll(USER_ID), expected);
+    }
+
+    @Test(expected = org.springframework.dao.DuplicateKeyException.class)
+    public void createSameUserDateTime() throws Exception {
+        Meal newMeal = new Meal(null, USER_MEAL_01.getDateTime(), "Обед", 1000);
+        service.create(newMeal, USER_ID);
+    }
+
+    @Test
     public void getBetweenDates() {
         List<Meal> meals = service.getBetweenDateTimes(LocalDateTime.of(2015, Month.MAY, 30, 13, 0), LocalDateTime.of(2015, Month.MAY, 30, 20, 0), ADMIN_ID);
         assertMatch(meals, ADMIN_MEAL_03, ADMIN_MEAL_02);
