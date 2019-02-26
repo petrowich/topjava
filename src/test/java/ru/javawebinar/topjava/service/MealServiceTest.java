@@ -1,6 +1,5 @@
 package ru.javawebinar.topjava.service;
 
-import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.bridge.SLF4JBridgeHandler;
@@ -12,6 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.List;
@@ -36,24 +36,18 @@ public class MealServiceTest {
 
     @Test
     public void create() throws Exception {
-        List<Meal> expected = service.getAll(USER_ID); //too lazy for write all of USER_MEAL_ID_01 .. here, so let's put all of them in the list
-        Meal newMeal = new Meal(null, LocalDateTime.of(2015, Month.MAY, 29, 10, 0), "Обед", 1000); //make meal date earlier then others to be in the end of list returned by service.getAll
+        Meal newMeal = new Meal(null, LocalDateTime.of(2015, Month.MAY, 29, 10, 0), "Обед", 1000);
         service.create(newMeal, USER_ID);
-        newMeal.setId(newMeal.getId());
-        expected.add(newMeal);
-        assertMatch(service.getAll(USER_ID), expected);
+        assertMatch(service.getAll(USER_ID)
+                , USER_MEAL_13, USER_MEAL_12, USER_MEAL_11
+                , USER_MEAL_03, USER_MEAL_02, USER_MEAL_01
+                , newMeal);
     }
 
     @Test(expected = org.springframework.dao.DuplicateKeyException.class)
     public void createSameUserDateTime() throws Exception {
         Meal newMeal = new Meal(null, USER_MEAL_01.getDateTime(), "Обед", 1000);
         service.create(newMeal, USER_ID);
-    }
-
-    @Test
-    public void getBetweenDates() {
-        List<Meal> meals = service.getBetweenDateTimes(LocalDateTime.of(2015, Month.MAY, 30, 13, 0), LocalDateTime.of(2015, Month.MAY, 30, 20, 0), ADMIN_ID);
-        assertMatch(meals, ADMIN_MEAL_03, ADMIN_MEAL_02);
     }
 
     @Test
@@ -65,6 +59,28 @@ public class MealServiceTest {
     @Test(expected = NotFoundException.class)
     public void getNotFound() throws Exception {
         service.get(USER_MEAL_ID_11, ADMIN_ID);
+    }
+
+    @Test
+    public void getAll() throws Exception {
+        assertMatch(service.getAll(USER_ID)
+                , USER_MEAL_13, USER_MEAL_12, USER_MEAL_11
+                , USER_MEAL_03, USER_MEAL_02, USER_MEAL_01);
+    }
+
+    @Test
+    public void getBetweenDateTimes() throws Exception {
+        assertMatch(service.getBetweenDateTimes(LocalDateTime.of(2015, Month.MAY, 30, 13, 0)
+                , LocalDateTime.of(2015, Month.MAY, 31, 10, 0), USER_ID)
+                , USER_MEAL_11, USER_MEAL_03, USER_MEAL_02);
+    }
+
+    @Test
+    public void getBetweenDates() throws Exception {
+        assertMatch(service.getBetweenDates(LocalDate.of(2015, Month.MAY, 30)
+                , LocalDate.of(2015, Month.MAY, 31), USER_ID)
+                , USER_MEAL_13, USER_MEAL_12, USER_MEAL_11
+                , USER_MEAL_03, USER_MEAL_02, USER_MEAL_01);
     }
 
     @Test
