@@ -77,10 +77,9 @@ public class MealServiceTest {
 
     @Test
     public void getBetweenDates() throws Exception {
-        assertMatch(service.getBetweenDates(LocalDate.of(2015, Month.MAY, 30)
+        assertMatch(service.getBetweenDates(LocalDate.of(2015, Month.MAY, 31)
                 , LocalDate.of(2015, Month.MAY, 31), USER_ID)
-                , USER_MEAL_13, USER_MEAL_12, USER_MEAL_11
-                , USER_MEAL_03, USER_MEAL_02, USER_MEAL_01);
+                , USER_MEAL_13, USER_MEAL_12, USER_MEAL_11);
     }
 
     @Test
